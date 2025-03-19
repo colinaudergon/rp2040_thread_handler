@@ -1,7 +1,7 @@
 # Thread Handler
 
 ## Overview
-The **Thread Handler** is a lightweight task management system designed to run on a raspberry  pi pico, or any rp2040 microcontroller. It enables task scheduling, execution, and management across multiple priorities while utilizing inter-core communication for task delegation. The system is implemented using a FIFO queue to send commands between cores efficiently.
+The **Thread Handler** is a lightweight task management system designed to run on a Raspberry Pi Pico or any RP2040 microcontroller. It enables task scheduling, execution, and management across multiple priorities while utilizing inter-core communication for task delegation. The system is implemented using a FIFO queue to send commands between cores efficiently.
 
 ## Features
 - **Multicore Support**: Leverages multiple cores to distribute task execution.
@@ -10,7 +10,6 @@ The **Thread Handler** is a lightweight task management system designed to run o
 - **Dynamic Task Management**: Allows adding, removing, and executing tasks dynamically.
 - **Memory Management**: Expands task storage dynamically as needed.
 - **Single-Shot Task Execution**: Supports one-time execution tasks.
-
 
 ## Architecture
 - **Core 0**: Responsible for system control and task initiation.
@@ -52,6 +51,34 @@ thread_handler_remove_task(task);
 thread_handler_stop();
 ```
 
+## Example Usage
+The following example demonstrates how tasks are managed using the thread handler:
+
+```c
+void example_task(void *arg) {
+    printf("Executing example task with arg: %d\n", *(int *)arg);
+}
+
+int main() {
+    thread_handler_start();
+
+    int arg1 = 42;
+    thread_task_t *task1 = thread_handler_create_task(example_task, &arg1, "ExampleTask", HIGH, false);
+    thread_handler_add_task(task1);
+
+    sleep(5); // Allow time for execution
+
+    thread_handler_remove_task(task1);
+    thread_handler_stop();
+    return 0;
+}
+```
+
+## Output Example
+Below is an example of the expected output when running the system:
+
+![Thread Handler Output](img/output.jpeg)
+
 ## Memory Considerations
 - The task list is dynamically allocated and expands as needed.
 - Single-shot tasks are removed automatically after execution.
@@ -64,3 +91,4 @@ thread_handler_stop();
 
 ## License
 This project is released under the MIT License.
+
