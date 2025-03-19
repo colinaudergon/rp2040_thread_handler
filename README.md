@@ -88,7 +88,3 @@ Below is an example of the expected output when running the system:
 - Implement a more sophisticated scheduling algorithm.
 - Support for additional task states (e.g., paused, resumed).
 - Optimize memory allocation for task management.
-
-## License
-This project is released under the MIT License.
-
